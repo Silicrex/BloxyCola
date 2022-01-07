@@ -1,0 +1,12 @@
+pg_password.json
+run.sh
+token.json
+boost_redeems.json
+coin_assets.json
+config.json
+month.json
+pg_password.json
+.idea/
+__pycache__/
+pyvenv.cfg
+cogs/__pycache__/

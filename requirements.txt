@@ -1,0 +1,5 @@
+aiohttp==3.7.4.post0
+arrow==1.2.1
+asyncpg==0.25.0
+discord.py==1.7.3
+pytz==2021.3
