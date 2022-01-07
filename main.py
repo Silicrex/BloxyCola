@@ -17,12 +17,13 @@ intents.members = True
 intents.dm_messages = False
 bot = commands.Bot(command_prefix='.', case_insensitive=True, intents=intents, help_command=None)
 
-with open('pg_password.json') as file:
-    pg_password = json.load(file)
+with open('pg_config.json') as file:
+    pg_config = json.load(file)
 
 
 async def create_db_pool():
-    bot.pg_con = await asyncpg.create_pool(database='pi', user='pi', password=pg_password)
+    bot.pg_con = await asyncpg.create_pool(database=pg_config['database'], user=pg_config['user'],
+                                           password=pg_config['password'])
 
 
 #@bot.check

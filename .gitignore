@@ -5,7 +5,7 @@ boost_redeems.json
 coin_assets.json
 config.json
 month.json
-pg_password.json
+pg_config.json
 .idea/
 __pycache__/
 pyvenv.cfg
