@@ -54,13 +54,17 @@ async def reload(ctx, extension):  # Reloads an extension; easy update without r
     bot.reload_extension(f'cogs.{extension}')
     await ctx.send(f'Reloaded {extension}')
 
-# @reload.error
-# async def reload_error(ctx, error):
-#     if isinstance(error, commands.ExtensionNotLoaded):
-#         extension = ctx.message.content.split()[1]
-#         bot.load_extension(f'cogs.{extension}')
-#         await ctx.send(f'Loaded {extension}')
-#         error.error_handled = True
+
+@reload.error
+async def reload_error(ctx, error):
+    if isinstance(error, commands.CommandInvokeError):
+        # CommandInvokeError bundles exceptions, original stored in error.original, not all errors have this attr
+        inner_error = error.original
+        if isinstance(inner_error, commands.ExtensionNotLoaded):
+            extension = ctx.message.content.split()[1]
+            bot.load_extension(f'cogs.{extension}')
+            await ctx.send(f'Loaded {extension}')
+            error.error_handled = True  # Monkey-patch attr for global event handler, which exception is passed to next
 
 
 for filename in os.listdir('./cogs'):  # Load all cogs
