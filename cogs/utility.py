@@ -3,7 +3,7 @@ from discord.ext import commands
 import time  # For ping command
 from datetime import datetime as Datetime
 from time_parsing import format_remaining_time
-from help import get_help_dict, get_help_embed, get_general_help_embed
+from help import get_help_dict, get_help_embed, get_general_help_embed, get_general_mod_help_embed
 
 
 class Utility(commands.Cog):
@@ -37,6 +37,7 @@ class Utility(commands.Cog):
         created_at = member.created_at
         account_age = now - created_at
         account_age_seconds = account_age.total_seconds()
+        print(f'{member}: {account_age_seconds} seconds')
         if account_age_seconds < 2628000:  # Less than 30.4 days old
             await mod_channel.send(f'{member} joined, account age: `{format_remaining_time(account_age_seconds)}`')
 
@@ -154,7 +155,26 @@ class Utility(commands.Cog):
     @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
     async def help2(self, ctx, *, arg1=None):
         if arg1 is None:  # Then print general help
-            embed = get_general_help_embed()
+            embed = get_general_help_embed(self.bot)
+            await ctx.send(embed=embed)
+        else:
+            arg1 = str(self.bot.get_command(arg1))  # Convert aliases to full command
+            help_dict = get_help_dict()
+            if arg1 in help_dict:
+                embed = get_help_embed(help_dict, arg1)
+                await ctx.send(embed=embed)
+            else:
+                embed = discord.Embed(
+                    title='Invalid command/subcommand',
+                    color=0xFFE900
+                )
+                await ctx.send(embed=embed)
+
+    @commands.command(aliases=['mh'])
+    @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
+    async def modhelp(self, ctx, *, arg1=None):
+        if arg1 is None:  # Then print general help
+            embed = get_general_mod_help_embed(self.bot)
             await ctx.send(embed=embed)
         else:
             arg1 = str(self.bot.get_command(arg1))  # Convert aliases to full command

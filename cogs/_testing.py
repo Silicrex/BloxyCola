@@ -45,7 +45,7 @@ class Testing(commands.Cog):
 
     @commands.group(invoke_without_command=True)
     @commands.has_permissions(manage_guild=True)
-    async def test(self, ctx, member: discord.Member):
+    async def test(self, ctx):
         pass
 
     # @commands.group(invoke_without_command=True)

@@ -1,29 +1,41 @@
 import discord
 
-def get_general_help_embed():
+
+def get_general_help_embed(bot):
     embed = discord.Embed(
-        title='Bot Commands',
-        description='**<> = Parameter**\n'
-                    '**() = optional**\n'
-                    '**/ = pick between**'
+        color=0x00AD25
     )
+    embed.set_author(name='Bot Commands', icon_url=bot.user.avatar_url)
+    embed_body = [
+        "**Hint: use `help <command/subcommand>` for more info!**",
+        "**For mod commands: `modhelp`**",
+        "**Don't forget the prefix!** `.`\n",
+        "**\\> General**",
+        "`help`, `alias`, `ping`\n",
+        "**\\> Coin Flipping**",
+        "`flip`, `stats`, `heads`, `tails`, `leaderboard`, `global`, `skins`, `equip`\n",
+        "**\\> Colors**",
+        "`color`, `setcolor`, `colors`, `modcolors`, `permacolors`, `boostredeem`\n",
+    ]
+    embed.description = ('\n'.join(embed_body))
+    return embed
 
-    utility_module = get_help_dict('utility')
-    utility_fields = []
-    for key, value in utility_module.items():  # Create utility text
-        utility_fields.append(f"**- {value['title']}**\n"
-                              f"{value['description']}")
-    utility_text = '\n'.join(utility_fields)
 
-    reactions_module = get_help_dict('reactions')
-    reactions_fields = []
-    for key, value in reactions_module.items():  # Create reactions text
-        reactions_fields.append(f"**- {value['title']}**\n"
-                                f"{value['description']}")
-    reactions_text = '\n'.join(reactions_fields)
-
-    embed.add_field(name='\\> Utility', value=utility_text, inline=True)
-    embed.add_field(name='\\> Reactions', value=reactions_text, inline=True)
+def get_general_mod_help_embed(bot):
+    embed = discord.Embed(
+        color=0x00AD25
+    )
+    embed.set_author(name='Bot Commands (Moderators)', icon_url=bot.user.avatar_url)
+    embed_body = [
+        "**Hint: use `help <command/subcommand>` for more info!**",
+        "**For user commands: `help`**",
+        "**Don't forget the prefix!** `.`\n",
+        "**\\> Colors**",
+        "`color`, `createmod`, `createperm`, `boostredeem`\n",
+        "**\\> Reactions**",
+        "`status`, `logstats`, `addlog`, `removelog`, `blacklist`\n",
+    ]
+    embed.description = ('\n'.join(embed_body))
     return embed
 
 
