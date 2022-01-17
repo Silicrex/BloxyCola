@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from help import get_help_embed
 
 
 class Errors(commands.Cog):
@@ -48,12 +49,11 @@ class Errors(commands.Cog):
                 color=0xFFE900
             )
             await ctx.send(embed=embed)
-        # elif isinstance(error, commands.MissingRequiredArgument):
-        #     msg = ctx.message.content
-        #     command = str(self.bot.get_command(msg[1:]))  # Remove prefix, convert aliases to full command
-        #     help_dict = get_help_dict()
-        #     embed = get_help_embed(help_dict, command)
-        #     await ctx.send(embed=embed)
+        elif isinstance(error, commands.MissingRequiredArgument):
+            msg = ctx.message.content
+            command = str(self.bot.get_command(msg[1:]))  # Remove prefix, convert aliases to full command
+            embed = get_help_embed(command)
+            await ctx.send(embed=embed)
         elif isinstance(error, commands.CommandInvokeError):
             inner_error = error.original  # CommandInvokeError umbrellas all CIE errors
             if isinstance(inner_error, commands.ExtensionNotFound):
