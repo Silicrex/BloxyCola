@@ -62,7 +62,15 @@ async def reload_error(ctx, error):
         inner_error = error.original
         if isinstance(inner_error, commands.ExtensionNotLoaded):
             extension = ctx.message.content.split()[1]
-            bot.load_extension(f'cogs.{extension}')
+            try:
+                bot.load_extension(f'cogs.{extension}')
+            except commands.ExtensionNotFound:
+                embed = discord.Embed(
+                    title='Invalid extension',
+                    color=0xFFE900
+                )
+                await ctx.send(embed=embed)
+                return
             await ctx.send(f'Loaded {extension}')
             error.error_handled = True  # Monkey-patch attr for global event handler, which exception is passed to next
 
