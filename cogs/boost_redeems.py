@@ -21,7 +21,6 @@ class BoostRedeems(commands.Cog):
         self.bot = bot
 
     @commands.group(aliases=['br'], invoke_without_command=False)
-    @commands.has_permissions(manage_roles=True)
     @commands.cooldown(rate=1, per=2, type=commands.BucketType.user)
     async def boostredeem(self, ctx):
         est = pytz.timezone('America/New_York')
