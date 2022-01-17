@@ -224,7 +224,7 @@ class CoinFlip(commands.Cog):
         embed = discord.Embed(
             title='Valid leaderboards',
             description="heads (h)\ntails (t)\ncurrent heads (ch)\ncurrent tails (ct)\nflips (f)\n"
-                        "skins (s)\n\nex: .lb heads 2"
+                        "allskins (s)\n\nex: .lb heads 2"
         )
         await ctx.send(embed=embed)
 
@@ -440,7 +440,7 @@ class CoinFlip(commands.Cog):
             index += 1
         await ctx.send(embed=embed)
 
-    @leaderboard.command(name='allskins', aliases=['skins', 'as', 's'])
+    @leaderboard.command(name='allskins', aliases=['skins', 's'])
     async def leaderboard_allskins(self, ctx, page='1'):
         if page.isnumeric():
             page = eval(page)

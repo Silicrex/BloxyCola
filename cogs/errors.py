@@ -8,10 +8,11 @@ class Errors(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):  # Error handler
-        if hasattr(error, 'error_handled'):
+        if hasattr(error, 'error_handled'):  # Local error handlers go first, this indicates error handled already
             return
         if isinstance(error, commands.CommandNotFound):
-            print(f'Invalid command by {ctx.author} in {ctx.channel}: {error.args[0]}')
+            # print(f'Invalid command by {ctx.author} in {ctx.channel}: {error.args[0]}')
+            pass
         elif isinstance(error, commands.NoPrivateMessage):
             print(f'Attempted DM use by {ctx.author}: {error.args[0]}')
         elif isinstance(error, commands.MissingPermissions):
@@ -53,6 +54,21 @@ class Errors(commands.Cog):
         #     help_dict = get_help_dict()
         #     embed = get_help_embed(help_dict, command)
         #     await ctx.send(embed=embed)
+        elif isinstance(error, commands.CommandInvokeError):
+            inner_error = error.original  # CommandInvokeError umbrellas all CIE errors
+            if isinstance(inner_error, commands.ExtensionNotFound):
+                embed = discord.Embed(
+                    title='Invalid extension',
+                    color=0xFFE900
+                )
+                await ctx.send(embed=embed)
+            elif isinstance(inner_error, commands.MissingPermissions):
+                if isinstance(inner_error, commands.ExtensionNotFound):
+                    embed = discord.Embed(
+                        title="I don't have the permission to do that",
+                        color=0xFFE900
+                    )
+                    await ctx.send(embed=embed)
         else:  # Log to console
             print('- [Error]')
             print('Class:', error.__class__)

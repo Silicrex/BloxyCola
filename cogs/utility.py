@@ -3,7 +3,7 @@ from discord.ext import commands
 import time  # For ping command
 from datetime import datetime as Datetime
 from time_parsing import format_remaining_time
-from help import get_help_dict, get_help_embed, get_general_help_embed, get_general_mod_help_embed
+from help import get_help_embed, get_modhelp_embed, get_general_help_embed, get_general_mod_help_embed
 
 
 class Utility(commands.Cog):
@@ -72,122 +72,27 @@ class Utility(commands.Cog):
         time_difference = time.monotonic() - start_time
         await sent_message.edit(content='Pong! {:.0f} ms'.format(time_difference * 1000))  # Edit time diff in as ms
 
-    @commands.command()
-    @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
-    async def alias(self, ctx):
-        embed = discord.Embed(
-            title='Command aliases',
-            description="**\\> = subcommand level**\n"
-                        "**'yes'/'y', 'no'/'n' interchangeable**"
-        )
-        embed.add_field(name='help', inline=True, value='- h')
-        embed.add_field(name='addlog', inline=True, value='- add\n'
-                                                          '- a\n'
-                                                          '**\\> set**\n'
-                                                          '- s')
-        embed.add_field(name='removelog', inline=True, value='- remove\r'
-                                                             '- r\n'
-                                                             '**\\> set**\n'
-                                                             '- s')
-        embed.add_field(name='status', inline=True, value='- s')
-        embed.add_field(name='blacklist', inline=True, value='- bl\n'
-                                                             '- b\n'
-                                                             '**\\> add**\n'
-                                                             '- a\n'
-                                                             '**\\> addrole**\n'
-                                                             '- ar\n'
-                                                             '**\\> remove**\n'
-                                                             '- r\n'
-                                                             '**\\> removerole**\n'
-                                                             '- rr\n'
-                                                             '**\\> list**\n'
-                                                             '- l')
-        embed.add_field(name='blacklist list', inline=True, value='**\\>> users**\n'
-                                                                  '- user\n'
-                                                                  '- u\n'
-                                                                  '**\\>> userid**\n'
-                                                                  '- uid\n'
-                                                                  '**\\>> roles**\n'
-                                                                  '- role\n'
-                                                                  '- r\n'
-                                                                  '**\\>> roleid**\n'
-                                                                  '- rid')
-        embed.add_field(name='blacklist clear', inline=True, value='**\\>> users**\n'
-                                                                   '- user\n'
-                                                                   '- u\n'
-                                                                   '**\\>> roles**\n'
-                                                                   '- role\n'
-                                                                   '- r\n')
-        await ctx.send(embed=embed)
-
     @commands.command(aliases=['h'])
-    @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
-    async def help(self, ctx):
-        embed = discord.Embed(
-            color=0x00AD25
-        )
-        embed.set_author(name='Bot Commands', icon_url=self.bot.user.avatar_url)
-        embed.add_field(name='.help', value='Prints commands')
-        embed.add_field(name='.ping', value='Pong!', inline=False)
-        embed.add_field(name='.flip', value='Flips a coin', inline=False)
-        embed.add_field(name='.stats', value='Shows your .flip stats', inline=False)
-        embed.add_field(name='.heads', value='More thorough heads stats', inline=False)
-        embed.add_field(name='.tails', value='More thorough tails stats', inline=False)
-        embed.add_field(name='.lb (tails/current/flips)', value='Shows the corresponding lb.'
-                                                                ' Default is best heads streak', inline=False)
-        embed.add_field(name='.global', value='Total count of heads/tails rolls for all users', inline=False)
-        embed.add_field(name='.color (<user>)', value='- Displays info about your temp color; or another user if given',
-                        inline=False)
-        embed.add_field(name='.colors', value='Displays all active registered temp colors', inline=False)
-        embed.add_field(name='.setcolor <color hex>', value='Used to modify your color role', inline=False)
-        embed.add_field(name='.permacolor list',
-                        value='- Displays users who have a registered perma color\n- Has alias of \'.pc l\'',
-                        inline=False)
-        embed.add_field(name='.boostredeem list',
-                        value='- Displays users who have redeemed a 7d Nitro color this month\n- Has alias of \'.b l\'',
-                        inline=False)
-        embed.add_field(name='.skins', value='- Displays all your unlocked skins', inline=False)
-        embed.add_field(name='.equip <skin>', value='- Equips the given skin, assuming you\'ve unlocked it',
-                        inline=False)
-        await ctx.send(embed=embed)
-
-    @commands.command(aliases=['h2'])
-    @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
-    async def help2(self, ctx, *, arg1=None):
+    @commands.cooldown(rate=1, per=2, type=commands.BucketType.user)
+    async def help(self, ctx, *, arg1=None):
         if arg1 is None:  # Then print general help
             embed = get_general_help_embed(self.bot)
             await ctx.send(embed=embed)
         else:
             arg1 = str(self.bot.get_command(arg1))  # Convert aliases to full command
-            help_dict = get_help_dict()
-            if arg1 in help_dict:
-                embed = get_help_embed(help_dict, arg1)
-                await ctx.send(embed=embed)
-            else:
-                embed = discord.Embed(
-                    title='Invalid command/subcommand',
-                    color=0xFFE900
-                )
-                await ctx.send(embed=embed)
+            embed = get_help_embed(arg1)
+            await ctx.send(embed=embed)
 
     @commands.command(aliases=['mh'])
-    @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
+    @commands.cooldown(rate=1, per=2, type=commands.BucketType.user)
     async def modhelp(self, ctx, *, arg1=None):
-        if arg1 is None:  # Then print general help
+        if arg1 is None:  # Then print general modhelp
             embed = get_general_mod_help_embed(self.bot)
             await ctx.send(embed=embed)
         else:
             arg1 = str(self.bot.get_command(arg1))  # Convert aliases to full command
-            help_dict = get_help_dict()
-            if arg1 in help_dict:
-                embed = get_help_embed(help_dict, arg1)
-                await ctx.send(embed=embed)
-            else:
-                embed = discord.Embed(
-                    title='Invalid command/subcommand',
-                    color=0xFFE900
-                )
-                await ctx.send(embed=embed)
+            embed = get_modhelp_embed(arg1)
+            await ctx.send(embed=embed)
 
 
 def setup(bot):  # For cog loading

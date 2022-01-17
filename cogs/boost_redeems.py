@@ -41,32 +41,29 @@ class BoostRedeems(commands.Cog):
             print(f'Still in {calendar_month} :)')
 
         if ctx.invoked_subcommand is None:
+            with open('boost_redeems.json') as file:
+                boost_redeems = json.load(file)
+            uid_string = str(ctx.author.id)
+            if uid_string not in boost_redeems:
+                nitro_booster = ctx.guild.get_role(585530835957186560)
+                if nitro_booster in ctx.author.roles:
+                    title = 'You are eligible to redeem a 7d custom coloration! Ask a moderator!'
+                else:
+                    title = 'Boost Redeems are for Nitro Boosters of the server!'
+            else:
+                title = 'You have redeemed your monthly Nitro Booster coloration already!'
             embed = discord.Embed(
+                title=title,
                 color=0x00AD25
             )
-            embed.set_author(name='boostredeem help')
-            embed.add_field(name='.boostredeem',
-                            value='- Prints help for command\n- boostredeem has alias of \'b\'\n- '
-                                  'Note: list is automatically cleared when a boostredeem command is '
-                                  'used in the next month')
-            embed.add_field(name='.boostredeem add <user>', value=
-                                 '**- Example: .b add @Silicrex**\n'
-                                 '- Adds user to monthly redeem list\n'
-                                 '- If the user has already redeemed, responds accordingly\n'
-                                 "- Alias of 'a', ie .b a <user>", inline=False)
-            embed.add_field(name='.boostredeem remove <user>', value=
-                                 '- Removes user from list\n'
-                                 '- NOTE: list automatically empties each month. This is for correcting mistakes\n'
-                                 "- Alias of 'r'", inline=False)
-            embed.add_field(name='.boostredeem list', value='- Lists redeems of this month\n- Alias of \'l\'',
-                            inline=False)
+            embed.set_author(name=f'{ctx.author.name}#{ctx.author.discriminator}', icon_url=ctx.author.avatar_url)
             await ctx.send(embed=embed)
 
     @boostredeem.command(name='list', aliases=['l'])
     @commands.has_permissions(manage_roles=True)
     @commands.cooldown(rate=1, per=3, type=commands.BucketType.user)
     async def boostredeem_list(self, ctx):
-        with open('month.json') as file:  # To check if stored month is still accurate
+        with open('month.json') as file:
             calendar_month = json.load(file)
         with open('boost_redeems.json') as file:
             boost_redeems = json.load(file)

@@ -606,9 +606,9 @@ class Reactions(commands.Cog):
 
     # ---------------------------------------- STATUS, STATS ----------------------------------------
 
-    @commands.command(aliases=['st'])
+    @commands.command(aliases=['ls'])
     @commands.has_permissions(manage_guild=True)
-    async def status(self, ctx):
+    async def logstatus(self, ctx):
         # Get add log statuses
         addlog_status = 'ON' if config_data['add_reaction_log_enabled'] else 'OFF'  # Status string
         addlog_id = config_data['add_reaction_log_id']

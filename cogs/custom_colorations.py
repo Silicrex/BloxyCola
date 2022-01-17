@@ -114,11 +114,12 @@ class CustomColorations(commands.Cog):
         color_role_display = []
         for color in color_fetch:
             uid_string = color['uid']
+            rid_string = color['rid']
             user = ctx.guild.get_member(int(uid_string))
-            if user is not None:
-                color_role_display.append(f'**{user.mention}**')
-            else:
-                color_role_display.append(f'**[User left: {uid_string}]**')
+            user_string = f'{user.mention}' if user else f'**[User left: {uid_string}]**'
+            role = ctx.guild.get_role(int(rid_string))
+            color_string = f'**[#{role.color}]**' if role else '**[Role not found]**'
+            color_role_display.append(f'{color_string} {user_string}')
         display = '\n'.join(color_role_display)
         embed.description = f'{display}'
         await ctx.send(embed=embed)
@@ -143,17 +144,18 @@ class CustomColorations(commands.Cog):
         color_role_display = []
         for color in color_fetch:
             uid_string = color['uid']
+            rid_string = color['rid']
             user = ctx.guild.get_member(int(uid_string))
-            if user is not None:
-                color_role_display.append(f'**{user.mention}**')
-            else:
-                color_role_display.append(f'**[User left: {uid_string}]**')
+            user_string = f'{user.mention}' if user else f'**[User left: {uid_string}]**'
+            role = ctx.guild.get_role(int(rid_string))
+            color_string = f'**[#{role.color}]**' if role else '**[Role not found]**'
+            color_role_display.append(f'{color_string} {user_string}')
         display = '\n'.join(color_role_display)
         embed.description = f'{display}'
         await ctx.send(embed=embed)
         return
 
-    @commands.command()
+    @commands.command(aliases=['sc'])
     @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
     async def setcolor(self, ctx, color):
         color = color.replace('#', '')
@@ -414,7 +416,7 @@ class CustomColorations(commands.Cog):
     @_color.command(name='extend', aliases=['e'])
     @commands.has_permissions(manage_roles=True)
     @commands.cooldown(rate=1, per=2, type=commands.BucketType.user)
-    async def color_extend(self, ctx, member: discord.Member, duration):
+    async def color_extend(self, ctx, member: discord.Member, duration='1w'):
         uid_string = str(member.id)
         user = await get_user(self.bot, uid_string)
         color_rid = user['color_rid']
@@ -482,24 +484,31 @@ class CustomColorations(commands.Cog):
         embed = discord.Embed(
             color=0x00AD25
         )
-        embed.set_author(name='c help')
-        embed.add_field(name='.c help', value='Prints help for command')
-        embed.add_field(name='.color create <mention> <color hex> <duration>', value=
-                             '**- Example: .c c @Silicrex 1w c21a1a**\n'
+        embed.add_field(name='.color help', value='Prints help for command')
+        embed.add_field(name='.color create <user id/mention> <color hex> <duration>', value=
+                             '**- Example: .color create @Silicrex c21a1a 1w**\n'
                              '- Duration defaults to 1w\n'
                              '- Creates role and sorts it above event host\n'
-                             '- Assigns role to mentioned user\n', inline=False)
+                             '- Assigns role automatically\n'
+                             '- Alias of `.c c <user id/mention> <color hex> <duration>`\n'
+                             '- For perm/mod colors, use `createperm`/`createmod` (same but no duration)', inline=False)
         embed.add_field(name='.color remove <user id>',
-                        value='- Deletes color role\n- Has alias ".c r"\n- Can use user mention instead of id',
-                        inline=False)
-        embed.add_field(name='.c extend <user id> <duration>',
-                        value='- Adds given time to that user\'s color\n- Has alias ".cc e"\n- '
-                              'Can use user mention instead of id', inline=False)
+                        value='- Deletes color role\n'
+                              '- Has alias `.c r <user id/mention>`', inline=False)
+        embed.add_field(name='.color extend <user id/mention> <duration>',
+                        value="- Extends user's coloration by given duration\n"
+                              "- Defaults to 1w\n"
+                              "- Has alias `.c e <user id/mention> <duration>`", inline=False)
+        embed.add_field(name='.color reduce <user id/mention> <duration>',
+                        value="- Reduces user's coloration by given duration", inline=False)
         embed.add_field(name='.color (<user>)',
-                        value='- Shows info about your color role; or another user if given\n- Has alias "c"',
+                        value='- Shows info about your color role; or another user if given\n'
+                              '- Has alias `c`',
                         inline=False)
         embed.add_field(name='.colors',
-                        value='- Displays active temp color roles and their remainders\n- Has alias "cl"',
+                        value='- Displays active temp color roles and their remaining durations\n'
+                              '- Has alias `cl`\n'
+                              '- Use `permacolors`/`modcolors` for the other types',
                         inline=False)
         await ctx.send(embed=embed)
         return
