@@ -4,6 +4,7 @@ import os  # To check if config.json exists already
 import json  # For config.json
 import aiohttp  # API doesn't properly work with the removal of animated emojis
 import asyncio  # For confirmation prompt timeout exception
+from datetime import datetime as Datetime  # It's a class
 
 # Will not be able to discern whether to display a removed reaction emoji as a png or gif, so use web request to check
 
@@ -28,6 +29,7 @@ if not os.path.isfile('config.json'):  # If config doesn't exist, create a fresh
             # for theoretical better performance
             'ignored_roles': [],
             'stat_tracking_enabled': True,
+            'stat_tracking_start_date': Datetime.today().strftime('%m/%d/%y'),
             'reactions_added': 0,
             'reactions_removed': 0,
         }
@@ -662,6 +664,7 @@ class Reactions(commands.Cog):
                         f'.stats <on/off>\n'
                         f'.stats clear'
         )
+        embed.set_footer(text=f'Started tracking on {config_data["stat_tracking_start_date"]}')
         await ctx.send(embed=embed)
 
     @logstats.command(name='on')
@@ -709,8 +712,7 @@ class Reactions(commands.Cog):
             description=f"Reactions added: **{config_data['reactions_added']}**\n"
                         f"Reactions removed: **{config_data['reactions_removed']}**\n\n"
                         f"**WARNING: this will reset tracked total reactions stats**\n"
-                        f"**Continue? (y/n)**\n"
-                        f"* 10s timeout",
+                        f"**Continue? (y/n)** (10s timeout)\n",
             color=0x60FF7D
         )
         await ctx.send(embed=embed)
@@ -733,6 +735,7 @@ class Reactions(commands.Cog):
         if content in {'yes', 'y'}:
             config_data['reactions_added'] = 0
             config_data['reactions_removed'] = 0
+            config_data['stat_tracking_start_date'] = Datetime.today().strftime('%m/%d/%y')
             save()
             embed = discord.Embed(
                 description='**Reset total reactions stats**',
