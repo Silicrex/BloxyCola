@@ -22,7 +22,7 @@ class BoostRedeems(commands.Cog):
 
     @commands.group(aliases=['br'], invoke_without_command=False)
     @commands.has_permissions(manage_roles=True)
-    @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
+    @commands.cooldown(rate=1, per=2, type=commands.BucketType.user)
     async def boostredeem(self, ctx):
         est = pytz.timezone('America/New_York')
         est_date = Datetime.now(est)
@@ -61,7 +61,7 @@ class BoostRedeems(commands.Cog):
 
     @boostredeem.command(name='list', aliases=['l'])
     @commands.has_permissions(manage_roles=True)
-    @commands.cooldown(rate=1, per=3, type=commands.BucketType.user)
+    @commands.cooldown(rate=1, per=2, type=commands.BucketType.user)
     async def boostredeem_list(self, ctx):
         with open('month.json') as file:
             calendar_month = json.load(file)
@@ -85,7 +85,7 @@ class BoostRedeems(commands.Cog):
 
     @boostredeem.command(name='add', aliases=['a'])
     @commands.has_permissions(manage_roles=True)
-    @commands.cooldown(rate=1, per=3, type=commands.BucketType.user)
+    @commands.cooldown(rate=1, per=2, type=commands.BucketType.user)
     async def boostredeem_add(self, ctx, member: discord.Member):
         with open('boost_redeems.json') as file:
             boost_redeems = json.load(file)
@@ -110,7 +110,7 @@ class BoostRedeems(commands.Cog):
 
     @boostredeem.command(name='remove', aliases=['r'])
     @commands.has_permissions(manage_roles=True)
-    @commands.cooldown(rate=1, per=3, type=commands.BucketType.user)
+    @commands.cooldown(rate=1, per=2, type=commands.BucketType.user)
     async def boostredeem_remove(self, ctx, member: discord.Member):
         with open('boost_redeems.json') as file:
             boost_redeems = json.load(file)
