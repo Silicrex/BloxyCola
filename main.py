@@ -7,9 +7,7 @@ import console_interaction
 
 # Process of adding new commands:
 # 1. Create in cog
-# 2. Document in utility.py
-# 3. Document aliases in utility.py alias command
-# Can alternatively go by discord.py's built-in commands for description/aliases/etc.
+# 2. Document in help.py (whichever applicable between general help embeds, help dictionary, modhelp dictionary)
 
 
 intents = discord.Intents.default()  # For API permissions
@@ -26,8 +24,8 @@ async def create_db_pool():
                                            password=pg_config['password'])
 
 
-#@bot.check
-#async def require_manage_guild(ctx):  # All commands require Manage Server permission
+# @bot.check
+# async def require_manage_guild(ctx):  # All commands require Manage Server permission
 #    if not ctx.author.guild_permissions.manage_guild:
 #        raise commands.MissingPermissions(['manage_guild'])
 #    else:

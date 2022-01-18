@@ -284,9 +284,10 @@ def get_help_dict():
         'color':
             {
                 'title': 'color (<user id/mention>)',
-                'description': '- Shows info on your custom coloration, or one of a specified user',
+                'description': '- Shows info on your custom coloration, or one of a specified user\n'
+                               '**- Moderators: use `.color help` or `.modhelp color`**',
                 'example': 'color',
-                'alias': ['c']
+                'alias': ['cc', 'c']
             },
         'color help':
             {
@@ -304,12 +305,47 @@ def get_help_dict():
                 'example': 'color create @User 7FF4FF 1w',
                 'alias': ['c']
             },
+        'color registertemp':
+            {
+                'title': 'color registertemp <user id/mention> <role id/mention> <duration>',
+                'description': "- If the role exists but isn't registered, adds to database\n"
+                               "- If the role is registered but as a different type, will switch the type to temp\n"
+                               "- Duration can be left blank and defaults to 1 week\n"
+                               "- Duration format is like `1m`, `2h`, `3d`, `4w`",
+                'example': 'color registertemp @User @Role 1w',
+                'alias': ['rt']
+            },
+        'color registermod':
+            {
+                'title': 'color registermod <user id/mention> <role id/mention>',
+                'description': "- If the role exists but isn't registered, adds to database\n"
+                               "- If the role is registered but as a different type, will switch the type to mod\n"
+                               "- If the role is registered already, don't need to provide role (user is enough)",
+                'example': 'color registermod @User',
+                'alias': ['rm']
+            },
+        'color registerperm':
+            {
+                'title': 'color registerperm <user id/mention> <role id/mention>',
+                'description': "- If the role exists but isn't registered, adds to database\n"
+                               "- If the role is registered but as a different type, will switch the type to perm\n"
+                               "- If the role is registered already, don't need to provide role (user is enough)",
+                'example': 'color registerperm @User',
+                'alias': ['rp']
+            },
         'color remove':
             {
                 'title': 'color remove <user id/mention>',
                 'description': '- Removes given user coloration, deletes role',
                 'example': 'color remove @User',
-                'alias': ['r']
+                'alias': ['delete', 'd', 'r']
+            },
+        'color softremove':
+            {
+                'title': 'color softremove <user id/mention>',
+                'description': '- Removes given user coloration from database but does not delete the role',
+                'example': 'color remove @User',
+                'alias': ['sr']
             },
         'color extend':
             {

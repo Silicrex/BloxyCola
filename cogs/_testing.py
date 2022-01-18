@@ -45,8 +45,10 @@ class Testing(commands.Cog):
 
     @commands.group(invoke_without_command=True)
     @commands.has_permissions(manage_guild=True)
-    async def test(self, ctx):
-        pass
+    async def test(self, ctx, member: discord.Member):
+        uid_string = str(member.id)
+        user_fetch = await self.bot.pg_con.fetch("SELECT * FROM users WHERE uid = $1", uid_string)
+        print(user_fetch)
 
     # @commands.group(invoke_without_command=True)
     # @commands.has_permissions(manage_guild=True)
