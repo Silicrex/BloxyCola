@@ -744,9 +744,22 @@ class CustomColorations(commands.Cog):
                              '- Assigns role automatically\n'
                              '- Alias of `.c c <user id/mention> <color hex> <duration>`\n'
                              '- For perm/mod colors, use `createperm`/`createmod` (same but no duration)', inline=False)
-        embed.add_field(name='.color remove <user id>',
+        embed.add_field(name='.color registertemp <user id/mention> <role id/mention> <duration>',
+                        value='- Registers already-existing role to database\n'
+                              '- If role is already registered to them, will switch type to temp\n'
+                              '- Duration can be left blank and defaults to 1w\n'
+                              '- Has alias `.c rt <user id/mention>`', inline=False)
+        embed.add_field(name='.color registerperm <user id/mention> <role id/mention>',
+                        value='- Registers already-existing role to database\n'
+                              '- If role is already registered to them, will switch type to perm\n'
+                              '- `registermod` for mod colors\n'
+                              '- Has alias `.c rp <user id/mention>`', inline=False)
+        embed.add_field(name='.color remove <user id/mention>',
                         value='- Deletes color role\n'
                               '- Has alias `.c r <user id/mention>`', inline=False)
+        embed.add_field(name='.color softremove <user id/mention>',
+                        value='- Deletes database entry\n'
+                              '- Has alias `.c sr <user id/mention>`', inline=False)
         embed.add_field(name='.color extend <user id/mention> <duration>',
                         value="- Extends user's coloration by given duration\n"
                               "- Defaults to 1w\n"

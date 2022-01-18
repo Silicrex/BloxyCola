@@ -344,7 +344,7 @@ def get_help_dict():
             {
                 'title': 'color softremove <user id/mention>',
                 'description': '- Removes given user coloration from database but does not delete the role',
-                'example': 'color remove @User',
+                'example': 'color softremove @User',
                 'alias': ['sr']
             },
         'color extend':
