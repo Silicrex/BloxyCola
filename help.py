@@ -305,6 +305,22 @@ def get_help_dict():
                 'example': 'color create @User 7FF4FF 1w',
                 'alias': ['c']
             },
+        'color createmod':
+            {
+                'title': 'color createmod <user id/mention> <color hex>',
+                'description': '- Hash symbol in color hex is optional\n'
+                               '- Duration format is like `1m`, `2h`, `3d`, `4w`',
+                'example': 'color createmod @User 7FF4FF',
+                'alias': ['cmod']
+            },
+        'color createperm':
+            {
+                'title': 'color createperm <user id/mention> <color hex>',
+                'description': '- Hash symbol in color hex is optional\n'
+                               '- Duration format is like `1m`, `2h`, `3d`, `4w`',
+                'example': 'color createperm @User 7FF4FF',
+                'alias': ['cperm']
+            },
         'color registertemp':
             {
                 'title': 'color registertemp <user id/mention> <role id/mention> <duration>',

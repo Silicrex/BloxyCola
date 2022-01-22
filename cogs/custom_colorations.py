@@ -141,7 +141,7 @@ class CustomColorations(commands.Cog):
         # User does not have a color, create the role
         created_role = await guild.create_role(name=f"{member.name}'s Custom Coloration", color=color_hex)
         color_rid = str(created_role.id)
-        await user.add_roles(created_role)  # Assign role to the user
+        await member.add_roles(created_role)  # Assign role to the user
         await self.bot.pg_con.execute("INSERT INTO colors (rid, type, uid) VALUES ($1, $2, $3)", color_rid, 'mod',
                                       uid_string)
         # Update foreign key
@@ -150,7 +150,7 @@ class CustomColorations(commands.Cog):
         role_floor = guild.get_role(332577965424640000)  # For sorting
         await created_role.edit(position=role_floor.position)
         embed = discord.Embed(
-            description=f'Successfully generated color role for {user.mention}',
+            description=f'Successfully generated color role for {member.mention}',
             color=color_hex
         )
         await ctx.send(embed=embed)
@@ -184,7 +184,7 @@ class CustomColorations(commands.Cog):
         # User does not have a color, create the role
         created_role = await guild.create_role(name=f"{member.name}'s Permanent Custom Coloration", color=color_hex)
         color_rid = str(created_role.id)
-        await user.add_roles(created_role)  # Assign role to the user
+        await member.add_roles(created_role)  # Assign role to the user
         await self.bot.pg_con.execute("INSERT INTO colors (rid, type, uid) VALUES ($1, $2, $3)", color_rid, 'perm',
                                       uid_string)
         # Update foreign key
@@ -193,7 +193,7 @@ class CustomColorations(commands.Cog):
         role_floor = guild.get_role(565349351933607937)  # For sorting
         await created_role.edit(position=role_floor.position)
         embed = discord.Embed(
-            description=f'Successfully generated color role for {user.mention}',
+            description=f'Successfully generated color role for {member.mention}',
             color=color_hex
         )
         await ctx.send(embed=embed)
@@ -655,7 +655,7 @@ class CustomColorations(commands.Cog):
             user = ctx.guild.get_member(int(uid_string))
             user_string = f'{user.mention}' if user else f'**[User left: {uid_string}]**'
             role = ctx.guild.get_role(int(rid_string))
-            color_string = f'**[#{role.color}]**' if role else '**[Role not found]**'
+            color_string = f'**[{role.color}]**' if role else '**[Role not found]**'
             color_role_display.append(f'{color_string} {user_string}')
         display = '\n'.join(color_role_display)
         embed.description = f'{display}'
@@ -685,7 +685,7 @@ class CustomColorations(commands.Cog):
             user = ctx.guild.get_member(int(uid_string))
             user_string = f'{user.mention}' if user else f'**[User left: {uid_string}]**'
             role = ctx.guild.get_role(int(rid_string))
-            color_string = f'**[#{role.color}]**' if role else '**[Role not found]**'
+            color_string = f'**[{role.color}]**' if role else '**[Role not found]**'
             color_role_display.append(f'{color_string} {user_string}')
         display = '\n'.join(color_role_display)
         embed.description = f'{display}'
