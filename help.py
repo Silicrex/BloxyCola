@@ -374,7 +374,8 @@ def get_help_dict():
         'color reduce':
             {
                 'title': 'color reduce <user id/mention> <duration>',
-                'description': '- Reduces user coloration by given duration',
+                'description': '- Reduces user coloration by given duration\n'
+                               '- Duration can be left blank and defaults to 1 week',
                 'example': 'color reduce @User 1w',
                 'alias': []
             },

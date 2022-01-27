@@ -566,7 +566,7 @@ class CustomColorations(commands.Cog):
 
     @_color.command(name='reduce')
     @commands.cooldown(rate=1, per=2, type=commands.BucketType.user)
-    async def color_reduce(self, ctx, member: discord.Member, duration):
+    async def color_reduce(self, ctx, member: discord.Member, duration='1w'):
         uid_string = str(member.id)
         user = await get_user(self.bot, uid_string)
         color_rid = user['color_rid']
