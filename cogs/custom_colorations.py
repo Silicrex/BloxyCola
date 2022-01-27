@@ -564,7 +564,7 @@ class CustomColorations(commands.Cog):
         )
         await ctx.send(embed=embed)
 
-    @_color.command(name='reduce')
+    @_color.command(name='reduce', aliases=['rprime', 'lower', 'red', 'l'])
     @commands.cooldown(rate=1, per=2, type=commands.BucketType.user)
     async def color_reduce(self, ctx, member: discord.Member, duration='1w'):
         uid_string = str(member.id)
