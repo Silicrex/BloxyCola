@@ -422,7 +422,7 @@ class CoinFlip(commands.Cog):
             await ctx.send(embed=embed)
             return
         embed = discord.Embed(
-            title=f'Best Total Flips Streak Leaderboard (Page {page}/{max_pages})',
+            title=f'Best Total Flips Leaderboard (Page {page}/{max_pages})',
             color=0x00AD25
         )
         displayed_count = 0  # Number displayed
