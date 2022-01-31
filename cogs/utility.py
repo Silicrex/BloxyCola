@@ -35,7 +35,7 @@ class Utility(commands.Cog):
         # Check account age
         now = Datetime.now()
         created_at = member.created_at
-        print(f'{created_at=}')
+        print(f'created_at = {created_at}')
         account_age = now - created_at
         account_age_seconds = account_age.total_seconds()
         print(f'{member}: {account_age_seconds} seconds')
