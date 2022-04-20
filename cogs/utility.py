@@ -33,7 +33,7 @@ class Utility(commands.Cog):
         lobby = self.bot.get_channel(278099400285356033)
 
         # Check account age
-        now = Datetime.now()
+        now = Datetime.utcnow()
         created_at = member.created_at
         print(f'created_at = {created_at}')
         account_age = now - created_at
