@@ -30,7 +30,7 @@ class Utility(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         mod_channel = self.bot.get_channel(332579851091312641)
-        lobby = self.bot.get_channel(278099400285356033)
+        welcome_channel = self.bot.get_channel(971157537338576927)
 
         # Check account age
         now = Datetime.utcnow()
@@ -57,13 +57,15 @@ class Utility(commands.Cog):
                                f"Please read our rules in the <#643330454568697858> channel. "
                                f"To unlock chat perms, please verify your Roblox account. "
                                f"Instructions can be found in <#775404743480705105>. "
-                               f"If you are ever in need of any assistance, don't hesitate to contact a moderator!")
+                               f"If you are ever in need of any assistance, don't hesitate to contact a moderator! "
+                               f"In the meantime, meet our <@&971156512766574642>!")
         else:  # User has Bloxy Cola stats
             welcome_message = (f"Welcome back to Fanmade, {member.mention}! "
                                f"As always; rules in <#643330454568697858>, "
                                f"verify in <#775404743480705105>, "
-                               f"and don't hesitate to contact a moderator if you need anything!")
-        await lobby.send(welcome_message)
+                               f"and don't hesitate to contact a moderator if you need anything! "
+                               f"Say hello to the <@&971156512766574642>!")
+        await welcome_channel.send(welcome_message)
 
     @commands.command()
     @commands.cooldown(rate=1, per=5, type=commands.BucketType.user)
