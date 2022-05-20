@@ -1,9 +1,18 @@
 import discord
 from discord.ext import commands
 import time  # For ping command
+import os
+import json
 from datetime import datetime as Datetime
 from time_parsing import format_remaining_time
 from help import get_help_embed, get_modhelp_embed, get_general_help_embed, get_general_mod_help_embed
+
+if not os.path.isfile('name_blacklist.json'):
+    with open('name_blacklist.json', 'w') as file:
+        json.dump([], file)
+
+with open('name_blacklist.json', 'r') as file:
+    name_blacklist = json.load(file)
 
 
 class Utility(commands.Cog):
@@ -43,12 +52,16 @@ class Utility(commands.Cog):
             await mod_channel.send(f'{member} joined, account age: `{format_remaining_time(account_age_seconds)}`')
 
         # Check username
-        name_blacklist = {'discord.gg'}
         for word in name_blacklist:
             if word in member.name:
                 await mod_channel.send(f'{member} joined, account age: `{format_remaining_time(account_age_seconds)}`. '
                                        f'Name contains {word}, not sending welcome message')
                 return
+
+        if member.bot:
+            await mod_channel.send(f'A bot joined: {member}. '
+                                   f'Account age: `{format_remaining_time(account_age_seconds)}`.')
+            return
 
         # Welcome message
         user = await self.bot.pg_con.fetch("SELECT * FROM users WHERE uid = $1", str(member.id))

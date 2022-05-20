@@ -6,6 +6,7 @@ coin_assets.json
 config.json
 month.json
 pg_config.json
+name_blacklist.json
 .idea/
 __pycache__/
 pyvenv.cfg
