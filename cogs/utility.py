@@ -69,13 +69,13 @@ class Utility(commands.Cog):
             welcome_message = (f"Welcome to the server, {member.mention}! "
                                f"Please read our rules in the <#643330454568697858> channel. "
                                f"To unlock chat perms, please verify your Roblox account. "
-                               f"Instructions can be found in <#775404743480705105>. "
+                               f"Instructions can be found in <#975928750640345088>. "
                                f"If you are ever in need of any assistance, don't hesitate to contact a moderator! "
                                f"In the meantime, meet our <@&971156512766574642>!")
         else:  # User has Bloxy Cola stats
             welcome_message = (f"Welcome back to Fanmade, {member.mention}! "
                                f"As always; rules in <#643330454568697858>, "
-                               f"verify in <#775404743480705105>, "
+                               f"verify in <#975928750640345088>, "
                                f"and don't hesitate to contact a moderator if you need anything! "
                                f"Say hello to the <@&971156512766574642>!")
         await welcome_channel.send(welcome_message)
