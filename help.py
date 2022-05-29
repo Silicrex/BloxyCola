@@ -285,6 +285,7 @@ def get_help_dict():
             {
                 'title': 'color (<user id/mention>)',
                 'description': '- Shows info on your custom coloration, or one of a specified user\n'
+                               '- `.setcolor` to change your color\n'
                                '**- Moderators: use `.color help` or `.modhelp color`**',
                 'example': 'color',
                 'alias': ['cc', 'c']
@@ -586,7 +587,7 @@ def get_modhelp_dict():
             {
                 'title': 'color (<user id/mention>)/(help/create/remove/extend)',
                 'description': '- Non-mod usage is checking your own color or that of a specified person\n'
-                               '- `color help` to view more in-depth color guide\n',
+                               '- `.color help` to view more in-depth color guide\n',
                 'example': 'color create @User 7FF4FF 1w',
                 'alias': ['c']
             },
