@@ -35,7 +35,9 @@ class Utility(commands.Cog):
             if 'k/r' in message.content.lower():
                 await message.add_reaction('keep:917244569136005151')
                 await message.add_reaction('replace:917244569182158868')
-
+        elif message.channel.id == 987775941692497920:
+            await message.add_reaction('\N{THUMBS UP SIGN}')
+            
     @commands.Cog.listener()
     async def on_member_join(self, member):
         mod_channel = self.bot.get_channel(332579851091312641)
